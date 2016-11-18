@@ -57,4 +57,13 @@ public class MailClient
         MailItem item = new MailItem(user, to, subject, message);
         server.post(item);
     }
+    /**
+     * Se pide que implementes un método en la clase MailClient que permita saber desde un cliente de correo electrónico cuántos emails tenemos en el servidor para nosotros y que dicha información se muestre por pantalla. Importante: los correos no deben ser descargados del servidor.
+     */
+    public void getEmails(){
+        int mails;
+        mails = server.howManyMailItems(user);
+        System.out.println("You have" + mails + "Emails");
+    }
+    
 }
