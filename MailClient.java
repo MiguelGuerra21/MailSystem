@@ -12,7 +12,11 @@ public class MailClient
     // The user running this client.
     private String user;
     
-    private MailItem subject;
+    private boolean automatic;
+    
+    private String automaticMessage;
+    
+    private String automaticSubject;
 
     /**
      * Create a mail client run by user and attached to the given server.
@@ -21,16 +25,26 @@ public class MailClient
     {
         this.server = server;
         this.user = user;
+        automatic = false;
+        automaticMessage = "I can´t receive any message right now";
+        automaticSubject = "I´m on holidays";
     }
 
     /**
      * Return the next mail item (if any) for this user.
      */
     public MailItem getNextMailItem()
-    {
-        return server.getNextMailItem(user);
-    }
-
+    {   
+        MailItem chisme = server.getNextMailItem(user);
+        if (automatic == true){
+                System.out.println(automaticMessage + automaticSubject);
+            }
+        else{
+            chisme = server.getNextMailItem(user);
+        }
+        return chisme;
+        }
+    
     /**
      * Print the next mail item (if any) for this user to the text 
      * terminal.
@@ -65,5 +79,14 @@ public class MailClient
         mails = server.howManyMailItems(user);
         System.out.println("You have" + mails + "Emails");
     }
-    
+    public void automaticAnswerOnOff ()
+    {
+        if(automatic == false){
+            automatic = true;
+        }
+        if (automatic == true){
+            automatic = false;
+        }
+    }
+
 }

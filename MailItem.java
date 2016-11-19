@@ -23,7 +23,7 @@ public class MailItem
      * @param to The intended recipient of this item.
      * @param message The text of the message to be sent.
      */
-    public MailItem(String from, String to,String subject, String message)
+    public MailItem(String from, String to, String subject, String message)
     {
         this.from = from;
         this.to = to;
@@ -58,7 +58,7 @@ public class MailItem
     /**
      * @return The subject of the message.
      */
-    public String getAsunto()
+    public String getSubject()
     {
         return subject;
     }
@@ -72,5 +72,11 @@ public class MailItem
         System.out.println("To: " + to);
         System.out.println("Subject: " + subject);
         System.out.println("Message: " + message);
+    }
+    public void setNewAtributes(String from, String to,String subject, String message){
+        this.from = from;
+        this.to = to;
+        this.subject = subject;
+        this.message = message;
     }
 }
