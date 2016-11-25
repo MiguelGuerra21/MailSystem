@@ -73,10 +73,4 @@ public class MailItem
         System.out.println("Subject: " + subject);
         System.out.println("Message: " + message);
     }
-    public void setNewAtributes(String from, String to,String subject, String message){
-        this.from = from;
-        this.to = to;
-        this.subject = subject;
-        this.message = message;
-    }
 }

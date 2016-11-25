@@ -17,6 +17,8 @@ public class MailClient
     private String automaticMessage;
     
     private String automaticSubject;
+    
+    private MailItem tutti;
 
     /**
      * Create a mail client run by user and attached to the given server.
@@ -26,8 +28,7 @@ public class MailClient
         this.server = server;
         this.user = user;
         automatic = false;
-        automaticMessage = "I can´t receive any message right now";
-        automaticSubject = "I´m on holidays";
+        tutti = null;
     }
 
     /**
@@ -35,15 +36,20 @@ public class MailClient
      */
     public MailItem getNextMailItem()
     {   
-        MailItem chisme = server.getNextMailItem(user);
-        if (automatic == true){
-                System.out.println(automaticMessage + automaticSubject);
-            }
-        else{
-            chisme = server.getNextMailItem(user);
+        MailItem item = server.getNextMailItem(user);
+        
+        if (automatic && item != null){
+          // Enviamos un correo de respuesta automaticamente
+          // Creamos el email
+          MailItem email = new MailItem(user, item.getFrom() ,automaticSubject ,automaticMessage);
+          //enviamos el email
+          server.post(email);
         }
-        return chisme;
+        if(item != null){
+            tutti = item;
         }
+        return item;
+    }
     
     /**
      * Print the next mail item (if any) for this user to the text 
@@ -51,12 +57,16 @@ public class MailClient
      */
     public void printNextMailItem()
     {
-        MailItem item = server.getNextMailItem(user);
+        MailItem item = getNextMailItem();
+        
         if(item == null) {
             System.out.println("No new mail.");
         }
         else {
             item.print();
+        }
+        if(item != null){
+            tutti = item;
         }
     }
 
@@ -81,11 +91,18 @@ public class MailClient
     }
     public void automaticAnswerOnOff ()
     {
-        if(automatic == false){
-            automatic = true;
+        automatic = !automatic;
+    }
+    public void configRespAutom(String nuevoAsunto, String nuevoMensaje){
+        automaticSubject = nuevoAsunto;
+        automaticMessage = nuevoMensaje;
+    }
+    public void showLastMessage() {
+        if(tutti == null){
+            System.out.println("No new mail.");
         }
-        if (automatic == true){
-            automatic = false;
+        else{
+            tutti.print();
         }
     }
 
